@@ -20,6 +20,7 @@ public class TrapCtrl : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("Trapped!");
+            collision.GetComponent<UnitHealth>().TakeDamage(100);
         }
     }
 }

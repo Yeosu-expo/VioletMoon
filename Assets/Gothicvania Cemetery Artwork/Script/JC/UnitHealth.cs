@@ -52,6 +52,15 @@ public class UnitHealth : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().sprite = deadSprite;
         animator.enabled = false;
         
+        if(gameObject.name == "Hero")
+        {
+            GMScript.Instance.isDie = true;
+        }
+        if(gameObject.name == "Wizard3")
+        {
+            GMScript.Instance.isClear = true;
+        }
+
         //yield return new WaitForSeconds(waitTime);
         int index = -1;
 

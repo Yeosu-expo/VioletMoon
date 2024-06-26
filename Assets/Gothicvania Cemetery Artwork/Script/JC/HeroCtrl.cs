@@ -9,7 +9,7 @@ public class HeroCtrl : MonoBehaviour
     public bool isRun;
     private GameObject attackArea;
 
-    Controller2D controller;
+    public Controller2D controller;
 
     public float jumpHeight = 4;
     public float timeToJumpApex = .4f;
@@ -97,7 +97,7 @@ public class HeroCtrl : MonoBehaviour
         }
     }
 
-    private void Flip()
+    public void Flip()
     {
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;

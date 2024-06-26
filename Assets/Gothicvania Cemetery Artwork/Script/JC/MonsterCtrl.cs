@@ -79,9 +79,20 @@ public class MonsterCtrl : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("P_Attack"))
+        if (collision.tag.Equals("Player"))
         {
-            Debug.Log("²ô¾Ç");
+            Debug.Log("lllllll");
+            collision.GetComponent<UnitHealth>().TakeDamage(10);
         }
     }
+    /*
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Col");
+        if (collision.collider.CompareTag("Player"))
+        {
+            collision.collider.GetComponent<UnitHealth>().TakeDamage(10);
+        }
+    }
+    */
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AttackCtrl : MonoBehaviour
 {
+    public float damage = 10f;
     public string targetTag = "Monster";
 
     private HashSet<GameObject> hitEnemies;
@@ -29,7 +30,6 @@ public class AttackCtrl : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name + " Attack Trigger");
         if (collision.CompareTag(targetTag))
         {
             if(collision.gameObject.name == "Hero")
@@ -46,6 +46,7 @@ public class AttackCtrl : MonoBehaviour
 
     public void SetTargetTag(string newTargetTag)
     {
+        Debug.Log("Call SetTargetTag");
         targetTag = newTargetTag;
     }
 }

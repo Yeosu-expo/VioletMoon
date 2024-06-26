@@ -33,20 +33,31 @@ public class fireBall : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Coroutine runningCoroutine;
         Debug.Log(collision.gameObject.name + " Attack Collision");
         Debug.Log(collision.gameObject.tag);
         Debug.Log(targetTag);
         Debug.Log(collision.gameObject.tag == targetTag);
         if (collision.gameObject.tag == targetTag)
         {
-            if(collision.gameObject.name == "Hero")
-                StartCoroutine(PostProcessingCtrl.Instance.ChangeChromTimes(4, 2, 2, 1, 0.2f)); // 혼란
-            Debug.Log("DD");
-            Debug.Log(collision.gameObject.name);
-            Debug.Log(targetTag);
             collision.GetComponent<UnitHealth>().TakeDamage(damage);
-            Destroy(gameObject);
+            if (collision.gameObject.name == "Hero")
+            {
+                runningCoroutine = StartCoroutine(PostProcessingCtrl.Instance.ChangeChromTimes(4, 2, 2, 1, 0.2f)); // 혼란
+                Debug.Log("혼란");
+                StartCoroutine(WaitForCoroutineAndDestroy(runningCoroutine));
+            }
         }
+    }
+
+
+    private IEnumerator WaitForCoroutineAndDestroy(Coroutine coroutine)
+    {
+        // 코루틴이 종료될 때까지 기다림
+        yield return coroutine;
+
+        // 코루틴이 완료되면 오브젝트를 파괴
+        Destroy(gameObject);
     }
 
 

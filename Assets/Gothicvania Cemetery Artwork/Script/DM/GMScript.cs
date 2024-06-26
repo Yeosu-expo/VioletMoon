@@ -15,6 +15,10 @@ public class GMScript : MonoBehaviour
     public bool isClear = false;
     public bool isPotalIn = false;
 
+    public bool isDie = false;
+    public bool isDieCheck = false;
+    
+
     public static GMScript Instance
     {
         get
@@ -71,6 +75,12 @@ public class GMScript : MonoBehaviour
             }
             
             CanvasCtrl.Instance.SetEndPanelActive(true, clearTime);
+        }
+        if (isDie && !isDieCheck)
+        {
+            isDieCheck = true;
+            float playTime = Time.time - startTime;
+            CanvasCtrl.Instance.DieEndPanelActive(true, playTime);
         }
     }
 

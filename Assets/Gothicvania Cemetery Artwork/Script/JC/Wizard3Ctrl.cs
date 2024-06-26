@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Wizard3Ctrl : MonoBehaviour
 {
-    private Animator animator;
+    public Animator animator;
     public bool isRun;
     public GameObject fireBall;
     public Transform firePos;
@@ -57,12 +57,6 @@ public class Wizard3Ctrl : MonoBehaviour
             {
                 controller.Move(velocity * Time.deltaTime);
             }
-            bool curDir = Mathf.Sign(transform.localScale.x) == -1; // left : false, right ; ture
-            bool nextDir = controller.collisions.right; // left : false, right : true
-            if (curDir != nextDir)
-            {
-                Flip();
-            }
         }
         else
         {
@@ -80,7 +74,7 @@ public class Wizard3Ctrl : MonoBehaviour
         }
         if (timer >= switchTime)
         {
-            movingRight = !movingRight;
+            Flip();
             SetRandomSwitchTime();
         }
     }
@@ -92,8 +86,9 @@ public class Wizard3Ctrl : MonoBehaviour
         attacked = false;
     }
 
-    private void Flip()
+    public void Flip()
     {
+        movingRight = !movingRight;
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
@@ -155,7 +150,18 @@ public class Wizard3Ctrl : MonoBehaviour
     public void Skill()
     {
         //isSkill = true;
+        gameObject.tag = "Untagged";
         fireBall.GetComponent<fireBall>().SetTargetTag("Monster");
-        StartCoroutine(Attack());
+        fireBall.GetComponent<fireBall>().damage = 50f;
+        Coroutine runningCoroutine = StartCoroutine(Attack());
+        StartCoroutine(WaitForCoroutineAndDestroy(runningCoroutine));
+    }
+    private IEnumerator WaitForCoroutineAndDestroy(Coroutine coroutine)
+    {
+        // 코루틴이 종료될 때까지 기다림
+        yield return coroutine;
+
+        // 코루틴이 완료되면 오브젝트를 파괴
+        Destroy(gameObject);
     }
 }

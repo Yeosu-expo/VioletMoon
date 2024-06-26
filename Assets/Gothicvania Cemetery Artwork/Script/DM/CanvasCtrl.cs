@@ -13,6 +13,8 @@ public class CanvasCtrl : MonoBehaviour
     public GameObject endPanel;
     public GameObject clearTime;
     public GameObject playTime;
+    public GameObject DiePanel;
+    public GameObject DiePlayTime;
 
     private static CanvasCtrl _instance;
     public RectTransform imageRectTransform;
@@ -121,11 +123,21 @@ public class CanvasCtrl : MonoBehaviour
         clearTime.GetComponent<TextMeshProUGUI>().text = "Clear Time: " + formmattedTime;
     }
 
+    public void DieEndPanelActive(bool sign, float time)
+    {
+        DiePanel.SetActive(sign);
+
+        TimeSpan timeSpan = TimeSpan.FromSeconds(time);
+        string formmattedTime = string.Format("{0:D2}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
+        DiePlayTime.GetComponent<TextMeshProUGUI>().text = "Play Time: " + formmattedTime;
+    }
+
     public void SetPanel()
     {
         startPanel.SetActive(true);
         escPanel.SetActive(false);
         playPanel.SetActive(false);
         endPanel.SetActive(false);
+        DiePanel.SetActive(false);
     }
 }

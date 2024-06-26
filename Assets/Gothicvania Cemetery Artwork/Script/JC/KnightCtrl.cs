@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class KnightCtrl : MonoBehaviour
 {
-    private Animator animator;
+    public Animator animator;
     public bool isRun;
     public GameObject attackArea;
     private bool isMove = true;
     private bool attacked = false;
     //public bool isSkill = false;
+
+    public string targetTag = "Player";
 
     Controller2D controller;
 
@@ -95,19 +97,11 @@ public class KnightCtrl : MonoBehaviour
         timer = 0;
     }
 
-    private void Flip()
+    public void Flip()
     {
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("P_Attack"))
-        {
-            Debug.Log("끄악");
-        }
     }
 
 
@@ -118,14 +112,15 @@ public class KnightCtrl : MonoBehaviour
 
         isMove = false;
         animator.SetTrigger("attack");
-        float attackAnimationLength = GetAnimationClipLength(animator, "Attack");
         yield return new WaitForSeconds(0.1f);
     }
 
     private IEnumerator AttackCallByAni()
     {
         attackArea.SetActive(true);
+        attackArea.GetComponent<AttackCtrl>().SetTargetTag(targetTag);
         yield return new WaitForSeconds(0.1f);
+        attackArea.GetComponent<AttackCtrl>().SetTargetTag("");
         attackArea.SetActive(false);
 
         isMove = true;
@@ -148,8 +143,36 @@ public class KnightCtrl : MonoBehaviour
 
     public void Skill()
     {
+        Debug.Log(0);
+        Coroutine runningCoroutine;
         //isSkill = true;
-        attackArea.GetComponent<AttackCtrl>().SetTargetTag("Monster");
+        gameObject.tag = "Untagged";
+        targetTag = "Monster";
+        attackArea = transform.Find("AttackArea").gameObject;
+        //attackArea.GetComponent<AttackCtrl>().SetTargetTag("Monster");
+        attackArea.GetComponent<AttackCtrl>().damage = 50;
+        Debug.Log(1);
         StartCoroutine(Attack());
+        Debug.Log(2);
+        float attackAnimationLength = GetAnimationClipLength(animator, "Attack");
+        Debug.Log(3);
+        runningCoroutine = StartCoroutine(Wait(attackAnimationLength));
+        Debug.Log(4);
+        StartCoroutine(WaitForCoroutineAndDestroy(runningCoroutine));
+    }
+    private IEnumerator WaitForCoroutineAndDestroy(Coroutine coroutine)
+    {
+        // 코루틴이 종료될 때까지 기다림
+        yield return coroutine;
+
+        Debug.Log(5);
+        // 코루틴이 완료되면 오브젝트를 파괴
+        Destroy(gameObject);
+    }
+
+    private IEnumerator Wait(float time)
+    {
+        // 코루틴이 종료될 때까지 기다림
+        yield return new WaitForSeconds(time);
     }
 }

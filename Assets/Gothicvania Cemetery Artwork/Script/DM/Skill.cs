@@ -39,7 +39,7 @@ public class Skill : MonoBehaviour
         }
     }
 
-    private GameObject[] skills;
+    public GameObject[] skills;
     private int skills_index = 0;
 
     public GameObject[] monsters;
@@ -83,6 +83,24 @@ public class Skill : MonoBehaviour
             {
                 qCoolNow = 0;
                 isQCool = false;
+            }
+        }
+        if (isWCool)
+        {
+            wCoolNow += Time.deltaTime;
+            if (wCool <= wCoolNow)
+            {
+                wCoolNow = 0;
+                isWCool = false;
+            }
+        }
+        if (isECool)
+        {
+            eCoolNow += Time.deltaTime;
+            if (eCool <= eCoolNow)
+            {
+                eCoolNow = 0;
+                isECool = false;
             }
         }
     }
@@ -234,12 +252,20 @@ public class Skill : MonoBehaviour
             Debug.Log("NULL Monster.");
             yield break;    
         }
-        GameObject shadow = Instantiate(skills[index], player.transform.position, player.transform.rotation); 
+
+
+        GameObject shadow = Instantiate(skills[index], player.transform.position, Quaternion.identity);
+        if (player.GetComponent<HeroCtrl>().controller.collisions.right)
+        {
+            if (shadow.name == "Knight(Clone)")
+                shadow.GetComponent<KnightCtrl>().Flip();
+            if (shadow.name == "Wizard3(Clone)")
+                shadow.GetComponent<Wizard3Ctrl>().Flip();
+        }
         shadow.GetComponent<Controller2D>().isEnable = false;
         shadow.GetComponent<Controller2D>().groundLayer = LayerMask.GetMask("Ground");
         shadow.GetComponent<CallSkill>().Call();
         // ½ºÅ³ ´Ù¾²¸é °´Ã¼ÆÄ±«
-        Destroy(shadow);
         Debug.Log("SKILL");
 
         yield return null;

@@ -148,6 +148,7 @@ public class PostProcessingCtrl : MonoBehaviour
 
     public IEnumerator ChangeChromTimes(float times, float st_itv, float ed_itv, float intensity, float mid_intensity)
     {
+        Debug.Log("»•∂ıΩ√¿€");
         float elapsedTime = 0f;
         while (elapsedTime < 0.5f)
         {
@@ -170,6 +171,7 @@ public class PostProcessingCtrl : MonoBehaviour
 
             yield return null;
         }
+        Debug.Log("»•∂ı ≥°");
     }
 
     IEnumerator ChangeChrom(float st_itv, float ed_itv, float intensity, float mid_intensity)

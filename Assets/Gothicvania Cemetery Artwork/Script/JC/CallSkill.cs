@@ -9,14 +9,20 @@ public class CallSkill : MonoBehaviour
 
     void Start()
     {
-        if (gameObject.name == "Knight")
-            Skill.AddListener(GetComponent<KnightCtrl>().Skill);
-        if (gameObject.name == "Wizard3")
-            Skill.AddListener(GetComponent<Wizard3Ctrl>().Skill);
     }
 
     public void Call()
     {
+
+        Debug.Log(gameObject.name);
+        if (gameObject.name == "Knight(Clone)")
+        {
+            Skill.AddListener(GetComponent<KnightCtrl>().Skill);
+        }
+        if (gameObject.name == "Wizard3(Clone)")
+        {
+            Skill.AddListener(GetComponent<Wizard3Ctrl>().Skill);
+        }
         Skill?.Invoke();
     }
 }
