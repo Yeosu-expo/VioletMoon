@@ -1,0 +1,4 @@
+repository "SpinWorld@akqjq9250@cloud"
+  path "/"
+    br "/main"
+    co "/main"
